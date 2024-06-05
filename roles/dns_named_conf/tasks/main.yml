@@ -1,0 +1,6 @@
+---
+# Update named.conf
+- name: Update named.conf file
+  ansible.builtin.template:
+    src: name_conf.j2
+    dest: /etc/named.conf

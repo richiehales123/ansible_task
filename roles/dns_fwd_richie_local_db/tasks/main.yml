@@ -1,0 +1,6 @@
+---
+# tasks file for dns_richie_local_db
+- name: Update richie.local.db file
+  ansible.builtin.template:
+    src: richie_local_db.j2
+    dest: /var/named/fwd.richie.local.db

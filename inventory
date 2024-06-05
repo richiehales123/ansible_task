@@ -1,0 +1,14 @@
+[gateway]
+172.16.6.55 ansible_user=root
+
+[dhcp]
+192.168.10.2 ansible_user=root ansible_ssh_common_args='-J root@172.16.6.55'
+
+[dns]
+192.168.10.3 ansible_user=root ansible_ssh_common_args='-J root@172.16.6.55'
+
+[appa]
+192.168.10.5 ansible_user=root ansible_ssh_common_args='-J root@172.16.6.55'
+
+[appb]
+192.168.10.6 ansible_user=root ansible_ssh_common_args='-J root@172.16.6.55'

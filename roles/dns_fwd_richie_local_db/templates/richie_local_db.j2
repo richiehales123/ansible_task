@@ -1,0 +1,16 @@
+@ IN SOA primary.richie.local. root.richie.local. (
+2016042112 ;Serial
+3600 ;Refresh
+1800 ;Retry
+604800 ;Expire
+43200 ;Minimum TTL
+)
+;Name Server Information
+@ IN NS primary.richie.local.
+;IP address of Name Server
+primary IN A 192.168.10.3
+www IN A 192.168.10.1
+;CNAME record
+ftp IN CNAME www.richie.local.
+appa IN A 192.168.10.5
+appb IN A 192.168.10.6

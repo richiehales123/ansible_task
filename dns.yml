@@ -1,0 +1,47 @@
+---
+- name: Setup dns server
+  hosts: dns
+  become: yes
+  roles: 
+    - role: ifcfg_setup
+
+  tasks:
+    - name: Restart NetworkManager
+      ansible.builtin.systemd_service:
+        name: NetworkManager
+        state: reloaded
+        enabled: true
+
+    - name: Add DNS IP to /etc/resolv.conf
+      ansible.builtin.lineinfile:
+        path: /etc/resolv.conf
+        line: "nameserver 8.8.8.8"
+        insertafter: EOF
+
+    - name: Install bind
+      ansible.builtin.yum:
+        name: bind,bind-utils
+        state: present
+
+    - name: Update named.conf file
+      ansible.builtin.include_role:
+        name: dns_named_conf
+
+    - name: Update/create fwd.richie.local.db file
+      ansible.builtin.include_role:
+        name: dns_fwd_richie_local_db
+
+    - name: Restart bind service
+      service:
+        name: named
+        state: restarted
+
+    - name: Add UDP port 53 to the firewall permanently
+      firewalld:
+        port: 53/udp
+        permanent: yes
+        state: enabled
+
+    - name: Reload firewall
+      ansible.builtin.shell:
+        cmd: firewall-cmd --reload

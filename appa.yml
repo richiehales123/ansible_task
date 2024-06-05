@@ -1,0 +1,71 @@
+---
+- name: Setup dns server
+  hosts: appa
+  become: yes
+
+  environment:
+    PORT: 3000
+    TARGET_URL: "https://jsonplaceholder.typicode.com/posts"
+
+  roles: 
+    - role: ifcfg_setup
+
+  vars_files:
+    - vars/gitkey.yml
+
+  tasks:
+    - name: Restart NetworkManager
+      ansible.builtin.systemd_service:
+        name: NetworkManager
+        state: reloaded
+        enabled: true
+  
+    - name: Set dns servers in resolv.conf file
+      ansible.builtin.include_role:
+        name: update_resolv_conf  
+
+    - name: Install git
+      ansible.builtin.yum:
+        name: git
+        state: present
+
+    - name: Echo variable
+      ansible.builtin.debug:
+        msg: "The API key is {{ gitkey }}"
+
+    - name: Clone git repository
+      ansible.builtin.git:
+        repo: "https://{{ gitkey }}@github.com/Enterprise-Automation/trainee-challenge-node-app.git"
+        dest: /root/trainee-challenge-node-app
+
+    - name: Download and install node version manager, source NVM script, and install Node.js version 20
+      ansible.builtin.shell:
+        cmd: |
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+          source /root/.nvm/nvm.sh
+          nvm install 20
+
+    - name: Install dotenv
+      ansible.builtin.shell:
+        cmd: "npm install -g dotenv-cli"
+
+    - name: Open port 3000 for TCP for calls from 192.1.1.1:3000
+      firewalld:
+        port: 3000/tcp
+        permanent: yes
+        state: enabled
+
+    - name: Reload firewalld
+      ansible.builtin.service:
+        name: firewalld
+        state: reloaded
+
+    - name: Install npm for app and start - Call from appb with - curl http://appa.richie.local:3000 
+      ansible.builtin.shell:
+        cmd: |
+          cd /root/trainee-challenge-node-app
+          source ~/.nvm/nvm.sh
+          npm install
+          npm startclear
+
+    

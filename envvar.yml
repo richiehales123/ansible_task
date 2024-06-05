@@ -1,0 +1,16 @@
+---
+- name: Setup dns server
+  hosts: appa
+  become: true
+
+  environment:
+    PORT: 3000
+    TARGET_URL: "https://jsonplaceholder.typicode.com/posts"
+
+  tasks:
+     - name: Test npm install
+       ansible.builtin.shell:
+        cmd: |
+          cd /root/trainee-challenge-node-app
+          touch testRun
+          npm start

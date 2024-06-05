@@ -1,0 +1,6 @@
+---
+# tasks file for dhcpd_conf_setup
+- name: Update/create dhcpd.conf file
+  ansible.builtin.template:
+    src: templates/dhcpd_conf_file.j2
+    dest: /etc/dhcp/dhcpd.conf

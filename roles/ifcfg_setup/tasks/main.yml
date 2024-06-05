@@ -1,0 +1,7 @@
+---
+# tasks file for _setup
+- name: Update/create ifcfg-ens33 file
+  ansible.builtin.template:
+    src: ifcfg-ens33.j2
+    dest: /etc/sysconfig/network-scripts/ifcfg-ens33
+

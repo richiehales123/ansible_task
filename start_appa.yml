@@ -1,0 +1,16 @@
+---
+- name: Setup dns server
+  hosts: appa
+  become: yes
+
+  environment:
+    PORT: 3000
+    TARGET_URL: "https://jsonplaceholder.typicode.com/posts"
+
+  tasks:
+     - name: Start appa - Call from appb with - curl http://appa.richie.local:3000 
+       ansible.builtin.shell:
+        cmd: |
+          cd /root/trainee-challenge-node-app
+          npm start
+          

@@ -1,0 +1,42 @@
+# dhcp.yml
+---
+- name: Setup dhcp server
+  hosts: dhcp
+  become: yes
+  roles: 
+    - role: ifcfg_setup
+
+  tasks:
+    - name: Restart NetworkManager
+      ansible.builtin.systemd_service:
+        name: NetworkManager
+        state: reloaded
+        enabled: true
+
+    - name: Add DNS IP to /etc/resolv.conf
+      ansible.builtin.lineinfile:
+        path: /etc/resolv.conf
+        line: "nameserver 8.8.8.8"
+        insertafter: EOF
+
+    - name: Install dhcp-server
+      ansible.builtin.yum:
+        name: dhcp-server
+        state: present
+
+    - name: Update/create dhcpd.conf file
+      ansible.builtin.include_role:
+        name: dhcpd_conf_setup        
+
+    - name: Start and enable dhcp to start on boot up
+      ansible.builtin.systemd_service:
+        name: dhcpd
+        state: restarted
+        enabled: true
+
+    - name: Allow dhcp traffic through firewall
+      ansible.posix.firewalld:
+        zone: public
+        service: dhcp
+        permanent: true
+        state: enabled

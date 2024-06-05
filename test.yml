@@ -1,0 +1,13 @@
+---
+- name: Get current network configuration
+  hosts: test
+  become: true
+    
+  tasks:
+    - name: Get current network configuration
+      command: ip addr show
+      register: network_config_output
+
+    - name: Print network configuration
+      debug:
+        var: network_config_output.stdout_lines
