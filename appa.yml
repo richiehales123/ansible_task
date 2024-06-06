@@ -66,6 +66,6 @@
           cd /root/trainee-challenge-node-app
           source ~/.nvm/nvm.sh
           npm install
-          npm startclear
+          npm start
 
-    
+  
