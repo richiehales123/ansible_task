@@ -59,3 +59,4 @@ Ansible vault used to encrypt github personal key. See step 4 - item 4.
 
 ## Ansible roles
 Ansible roles for repeated tasks and to improve code structure.
+Ansible role for [node installation](https://galaxy.ansible.com/ui/standalone/roles/geerlingguy/nodejs/documentation/) created by Jeff Geerling
