@@ -35,10 +35,10 @@ When App A playbook is run it will start App A and wait for App B to call. It wi
 1. Create a VM and connect - Rich's net.
 2. Change IP manually to: `192.168.10.5`.
 3. Copy ssh key from local machine to DHCP - `sh-copy-id -o ProxyJump=root@172.16.6.55 root@192.168.10.5`
-4. Store git personal key in ansible [vault](https://www.digitalocean.com/community/tutorials/how-to-use-vault-to-protect-sensitive-ansible-data)
-
-5. Run ansible playbook - ansible-playbook appa.yml
-6. Playbook will sit at and wait for call from App B before completing.
+4. Store git personal key in `vars/gitkey.yml` using ansible [vault](https://www.digitalocean.com/community/tutorials/how-to-use-vault-to-protect-sensitive-ansible-data) in `vars/gitkey.yml`
+5. Update variable `url` in `vars/app_setup` if required.
+6. Run ansible playbook - ansible-playbook appa.yml
+7. Playbook will sit at and wait for call from App B before completing.
 
 ## Step 5 - App B VM
 1. Create a VM and connect - Rich's net.
