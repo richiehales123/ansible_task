@@ -53,7 +53,7 @@
         state: enabled
 
     - name: Reload firewalld
-      ansible.builtin.service:
+      ansible.builtin.systemd_service:
         name: firewalld
         state: reloaded
 
