@@ -2,6 +2,8 @@
 - name: Setup dns server
   hosts: appa
   become: yes
+  gather_facts: false
+  
 
   environment:
     PORT: 3000
