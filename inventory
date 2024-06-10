@@ -2,13 +2,23 @@
 172.16.6.55 ansible_user=root
 
 [dhcp]
-192.168.10.2 ansible_user=root ansible_ssh_common_args='-J root@172.16.6.55'
+192.168.10.2 ansible_user=root
 
 [dns]
-192.168.10.3 ansible_user=root ansible_ssh_common_args='-J root@172.16.6.55'
+192.168.10.3 ansible_user=root
 
 [appa]
-192.168.10.5 ansible_user=root ansible_ssh_common_args='-J root@172.16.6.55'
+192.168.10.5 ansible_user=root
 
 [appb]
-192.168.10.6 ansible_user=root ansible_ssh_common_args='-J root@172.16.6.55'
+192.168.10.6 ansible_user=root
+
+[internal_net:children]
+dhcp
+dns
+appa
+appb
+
+[internal_net:vars]
+ansible_ssh_common_args='-J root@172.16.6.55'
+
