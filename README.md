@@ -57,6 +57,7 @@ When App A playbook is run it will start App A and wait for App B to call. It wi
 1. Create a new vm in centos - connect to private network (rich's net)
 2. Log in and run ifconfig - IP address should be 192.168.10.50 or .51 etc.
 3. Check DNS - dig appa.richi.local - check correct response - 192.168.10.5
+4. Check connection to external resources - ping -c 5 google.com
 
 # Technologies
 ## Ansible Vault
