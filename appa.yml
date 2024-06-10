@@ -3,15 +3,16 @@
   hosts: appa
   become: yes
 
+  vars_files:
+    - vars/gitkey.yml
+    - vars/app_setup
+
   environment:
-    PORT: 3000
-    TARGET_URL: "https://jsonplaceholder.typicode.com/posts"
+    PORT: "{{ listen_port }}"
+    TARGET_URL: "{{ url }}"
 
   roles: 
     - role: ifcfg_setup
-
-  vars_files:
-    - vars/gitkey.yml
 
   tasks:
     - name: Restart NetworkManager
@@ -29,14 +30,10 @@
         name: git
         state: present
 
-    - name: Echo variable
-      ansible.builtin.debug:
-        msg: "The API key is {{ gitkey }}"
-
     - name: Clone git repository
       ansible.builtin.git:
         repo: "https://{{ gitkey }}@github.com/Enterprise-Automation/trainee-challenge-node-app.git"
-        dest: /root/trainee-challenge-node-app
+        dest: "{{ app_location }}"
 
     - name: Set dns servers in resolv.conf file
       ansible.builtin.include_role:
