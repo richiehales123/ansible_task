@@ -16,20 +16,20 @@ When App A playbook is run it will start App A and wait for App B to call. It wi
 ## Step 1 - Gateway VM
 1. Create a VM with additional network card - Rich's net.
 2. Setup ssh from local machine to 172.16.0.55 - `ssh-copy-id -i id_rsa.pub root@172.16.6.55`
-3. Run ansible playbook - ansible-playbook gateway
+3. Run ansible playbook - `ansible-playbook gateway.yml`
 
 
 ## Step 2 - DHCP VM
 1. Create a VM and connect - Rich's net.
 2. Change IP manually to: `192.168.10.2`.
 3. Copy ssh key from local machine to DHCP - `sh-copy-id -o ProxyJump=root@172.16.6.55 root@192.168.10.2`
-4. Run ansible playbook - ansible-playbook dhcp.yml
+4. Run ansible playbook - `ansible-playbook dhcp.yml`
 
 ## Step 3 - DNS VM
 1. Create a VM and connect - Rich's net.
 2. Change IP manually to: `192.168.10.3`.
 3. Copy ssh key from local machine to DHCP - `sh-copy-id -o ProxyJump=root@172.16.6.55 root@192.168.10.3`
-4. Run ansible playbook - ansible-playbook dhcp.yml
+4. Run ansible playbook - `ansible-playbook dhcp.yml`
 
 ## Step 4 - App A VM
 1. Create a VM and connect - Rich's net.
@@ -37,20 +37,20 @@ When App A playbook is run it will start App A and wait for App B to call. It wi
 3. Copy ssh key from local machine to DHCP - `sh-copy-id -o ProxyJump=root@172.16.6.55 root@192.168.10.5`
 4. Store git personal key in `vars/gitkey.yml` using ansible [vault](https://www.digitalocean.com/community/tutorials/how-to-use-vault-to-protect-sensitive-ansible-data)
 5. Update variable `url` in `vars/app_setup` if required.
-6. Run ansible playbook - ansible-playbook appa.yml
+6. Run ansible playbook - `ansible-playbook appa.yml --ask-vault-password`
 7. Playbook will sit at and wait for call from App B before completing.
 
 ## Step 5 - App B VM
 1. Create a VM and connect - Rich's net.
 2. Change IP manually to: `192.168.10.6`.
 3. Copy ssh key from local machine to DHCP - `sh-copy-id -o ProxyJump=root@172.16.6.55 root@192.168.10.6`
-4. Run ansible playbook - ansible-playbook appb.yml
-5. From cli run - `curl http://appa.richie.local:3000`
+4. Run ansible playbook - `ansible-playbook appb.yml`
+5. From cli run - `curl http://appa.richie.local:3000` from any other vm.
 6. Data will be displayed in App B.
 7. Playbook running in App A will complete.
 
 ## Step 6 - Restart App A
-1. Run start_appa to run again - ansible-playbook start_appa.yml
+1. Run start_appa to run again - `ansible-playbook start_appa.yml`
 2. From cli (App B) run - `curl http://appa.richie.local:3000`
 
 ## Step 7 - Test DHCP configuration
