@@ -1,7 +1,7 @@
 # Ansible Task
 
 ## Description
-This Ansible playbook suite is designed to set up the following servers:
+This Ansible playbook is designed to set up the following servers:
 
 1. Gateway
 2. DHCP
